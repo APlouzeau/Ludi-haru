@@ -20,11 +20,8 @@ jobs:
          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
          chmod 600 private_key
          ssh -o StrictHostKeyChecking=no -i private_key root@85.215.131.239 'cd /home/sites/flepourtous && \
-         echo "Début de l installation des dépendances" && \
-         npm config set cache /home/sites/flepourtous/.npm-cache --global && \
-         npm install --cache /home/sites/flepourtous/.npm-cache && \
-         echo "Installation des dépendances terminée" && \
-         echo "Début de la construction" && \
+         git pull && \
+         npm install && \
          npm run build && \
-         echo "Construction terminée" && \
          pm2 restart your-app-name'
+
