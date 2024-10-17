@@ -8,14 +8,14 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    steps:
+      - name: Set up SSH known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 85.215.131.239 >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+      
+      - name: Deploy to VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} root@85.215.131.239 'cd /home/sites/flepourtous && git pull && npm install && npm run build && pm2 restart your-app-name'
 
-   steps:
-  - name: Set up SSH known_hosts
-    run: |
-      mkdir -p ~/.ssh
-      ssh-keyscan -H 85.215.131.239 >> ~/.ssh/known_hosts
-      chmod 600 ~/.ssh/known_hosts
-
-  - name: Deploy to VPS
-    run: |
-      ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} root@85.215.131.239 'cd /home/sites/flepourtous && git pull && npm install && npm run build && pm2 restart your-app-name'
