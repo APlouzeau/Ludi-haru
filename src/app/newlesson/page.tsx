@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-export default function newLesson() {
+export default function NewLesson() {
   const [formData, setFormData] = useState({
     title: "",
     date: "",
@@ -9,7 +9,7 @@ export default function newLesson() {
     author: "",
   });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -17,7 +17,7 @@ export default function newLesson() {
     });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Empêche le rechargement de la page
 
     // Envoie les données à l'API
@@ -36,7 +36,7 @@ export default function newLesson() {
       setFormData({ title: "", date: "", description: "", author: "" });
     } else {
       const errorData = await response.json();
-      console.error("Erreur lors de l'ajout de la leçon");
+      console.error("Erreur lors de l'ajout de la leçon : ", errorData);
     }
   };
 

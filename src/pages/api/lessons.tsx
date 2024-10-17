@@ -22,6 +22,7 @@ export default async function handler(
 
       res.status(201).json(newLesson);
     } catch (error) {
+      console.log(error);
       res.status(500).json({ error: "Erreur lors de la création de la leçon" });
     }
   } else {

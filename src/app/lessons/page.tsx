@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 interface Lesson {
-  id: Number;
+  id: number;
   title: string;
   description: string;
   date: Date;
