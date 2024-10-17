@@ -14,27 +14,27 @@ export default function Header() {
       <nav className="w-full">
         <ul className="flex justify-around">
           <li>
-            <Link href="/pages/present" className="hover:text-gray-700">
+            <Link href="/present" className="hover:text-gray-700">
               Présentation
             </Link>
           </li>
           <li>
-            <Link href="/pages/lessons" className="hover:text-gray-700">
+            <Link href="/lessons" className="hover:text-gray-700">
               Offre des cours
             </Link>
           </li>
           <li>
-            <Link href="/pages/ressources" className="hover:text-gray-700">
+            <Link href="/ressources" className="hover:text-gray-700">
               Ressources
             </Link>
           </li>
           <li>
-            <Link href="/pages/shop" className="hover:text-gray-700">
+            <Link href="/shop" className="hover:text-gray-700">
               Achats en ligne
             </Link>
           </li>
           <li>
-            <Link href="/pages/review" className="hover:text-gray-700">
+            <Link href="/review" className="hover:text-gray-700">
               Avis
             </Link>
           </li>
