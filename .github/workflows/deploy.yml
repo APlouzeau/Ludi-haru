@@ -1,0 +1,20 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to VPS
+        run: |
+          ssh root@85.215.131.239 'cd /home/sites/flepourtous && git pull && npm install && npm run build && pm2 restart your-app-name'
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
