@@ -22,13 +22,7 @@ jobs:
          ssh -o StrictHostKeyChecking=no -i private_key root@85.215.131.239 'cd /home/sites/flepourtous && \
          echo "Début de l installation des dépendances" && \
          npm config set cache /home/sites/flepourtous/.npm-cache --global && \
-         
-         # Ajout du cache npm
-         if [ ! -d ~/.npm ]; then
-           mkdir -p ~/.npm
-         fi
-         npm ci --cache /home/sites/flepourtous/.npm-cache && \
-         
+         npm install --cache /home/sites/flepourtous/.npm-cache && \
          echo "Installation des dépendances terminée" && \
          echo "Début de la construction" && \
          npm run build && \
