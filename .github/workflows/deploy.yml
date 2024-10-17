@@ -17,5 +17,7 @@ jobs:
       
       - name: Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} root@85.215.131.239 'cd /home/sites/flepourtous && git pull && npm install && npm run build && pm2 restart your-app-name'
+         echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
+         chmod 600 private_key
+         ssh -o StrictHostKeyChecking=no -i private_key root@85.215.131.239 'cd /home/sites/flepourtous && git pull && npm install && npm run build && pm2 restart your-app-name'
 
