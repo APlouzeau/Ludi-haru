@@ -23,7 +23,6 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.PRIVATE_KEY }}
-        port: 3000
         script: |
           cd ~/home/sites/flepourtous
           git pull origin main
