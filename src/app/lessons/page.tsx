@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Lesson {
   id: number;
@@ -33,7 +34,6 @@ export default function Lessons() {
   useEffect(() => {
     getLessons();
   }, []);
-  console.log(lessons);
 
   return (
     <div>
@@ -46,7 +46,7 @@ export default function Lessons() {
               className="card card-compact bg-base-100 w-96 shadow-xl m-4"
             >
               <figure>
-                <img
+                <Image
                   src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
                   alt="Shoes"
                 />
