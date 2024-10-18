@@ -24,17 +24,16 @@ jobs:
           cd /home/sites/flepourtous
 
           # Arrêter l'application
-          /root/.nvm/versions/node/v20.18.0/bin/pm2 stop flepourtous || { echo "Failed to stop PM2 application"; exit 1; }
+          pm2 delete flepourtous || true
 
           # Puller le dépôt
-          git pull || { echo "Failed to pull repository"; exit 1; }
+          git pull
 
           # Lancer le build
           npm install
           npm run build
 
           # Redémarrer l'application
-          /root/.nvm/versions/node/v20.18.0/bin/pm2 restart flepourtous || { echo "Failed to restart PM2 application"; exit 1; }
-          /root/.nvm/versions/node/v20.18.0/bin/pm2 status
+          pm2 start flepourtous
         EOF
 
