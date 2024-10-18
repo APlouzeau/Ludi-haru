@@ -1,31 +1,30 @@
+name: Deploy to VPS
 
-name: Deploy
-
-on: [push]
+on:
+  push:
+    branches:
+      - main  # Changez cela si votre branche principale est différente
 
 jobs:
-  build:
-
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    - name: Copy repository contents via scp
-      uses: appleboy/scp-action@master
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.5.3
       with:
-        HOST: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSHKEY }}
-        source: "."
-        target: "/home/sites/flepourtous"
+        ssh-private-key: ${{ secrets.SSHKEY }}
 
-    - name: Executing remote command
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        USERNAME: ${{ secrets.USERNAME }}
-        PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSHKEY }}
-        script: ls
+    - name: Deploy to server
+      run: |
+        ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
+          # Changez le chemin si nécessaire
+          git pull || (cd /home/sites/flepourtous && git pull)
+          cd /home/sites/flepourtous
+          npm install  # Assurez-vous d'installer les dépendances si nécessaire
+          npm run build
+          pm2 restart flepourtous
+        EOF
