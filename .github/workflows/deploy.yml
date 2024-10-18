@@ -20,7 +20,7 @@ jobs:
 
     - name: Deploy to server
       run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
           # Changez le chemin si nécessaire
           git pull || (cd /home/sites/flepourtous && git pull)
           cd /home/sites/flepourtous
