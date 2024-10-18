@@ -1,3 +1,4 @@
+
 name: Deploy
 
 on: [push]
@@ -16,7 +17,7 @@ jobs:
         HOST: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        KEY: ${{ secrets.SSHKEY }}
       with:
         source: "."
         target: "/var/www/mywebsite"
@@ -27,5 +28,5 @@ jobs:
         host: ${{ secrets.HOST }}
         USERNAME: ${{ secrets.USERNAME }}
         PORT: ${{ secrets.PORT }}
-        KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        KEY: ${{ secrets.SSHKEY }}
         script: ls
