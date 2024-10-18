@@ -3,7 +3,7 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main  # Changez cela si votre branche principale est différente
+      - main
 
 jobs:
   deploy:
@@ -20,11 +20,20 @@ jobs:
 
     - name: Deploy to server
       run: |
-        ssh -t -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
-          # Changez le chemin si nécessaire
-          git pull || (cd /home/sites/flepourtous && git pull)
+        ssh -t -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} << 'EOF'
           cd /home/sites/flepourtous
-          npm install  # Assurez-vous d'installer les dépendances si nécessaire
+
+          # Arrêter l'application
+          pm2 stop flepourtous
+
+          # Puller le dépôt
+          git pull
+
+          # Lancer le build
+          npm install
           npm run build
+
+          # Redémarrer l'application
           pm2 restart flepourtous
         EOF
+
