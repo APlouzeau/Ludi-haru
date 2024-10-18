@@ -20,20 +20,21 @@ jobs:
 
     - name: Deploy to server
       run: |
-        ssh -t -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << 'EOF'
           cd /home/sites/flepourtous
 
           # Arrêter l'application
-          pm2 stop flepourtous
+          pm2 stop flepourtous || { echo "Failed to stop PM2 application"; exit 1; }
 
           # Puller le dépôt
-          git pull
+          git pull || { echo "Failed to pull repository"; exit 1; }
 
           # Lancer le build
           npm install
           npm run build
 
           # Redémarrer l'application
-          pm2 restart flepourtous
+          pm2 restart flepourtous || { echo "Failed to restart PM2 application"; exit 1; }
+          pm2 status
         EOF
 
