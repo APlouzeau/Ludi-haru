@@ -1,40 +1,44 @@
-import { lessonsData } from "../data";
-import { Metadata } from "next";
+// app/[id]/page.tsx
+import { PrismaClient } from "@prisma/client";
 
-export function generateMetadata({
-  params,
-}: {
-  params: { id: number };
-}): Metadata {
-  const lesson = lessonsData.find(
-    (element) => element.id === Number(params.id)
-  );
-  return {
-    title: lesson?.title,
-    description: lesson?.description,
-  };
+interface Lesson {
+  id: number;
+  title: string;
+  description: string;
+  date: Date;
+  author: string;
 }
 
-export default function LessonDetails({
+const prisma = new PrismaClient();
+
+export default async function LessonDetails({
   params,
 }: {
-  params: {
-    id: number;
-  };
+  params: { id: string };
 }) {
-  const lesson = lessonsData.find(
-    (element) => element.id === Number(params.id)
-  );
-  return (
-    <>
-      {lesson ? (
-        <>
-          <h1>Détails de la leçon: {lesson.title}</h1>
-          <p>{lesson.description}</p>
-        </>
-      ) : (
-        <h1>Leçon non trouvée</h1>
-      )}
-    </>
-  );
+  const { id } = params;
+
+  let lesson: Lesson | null = null;
+
+  try {
+    const lessonId = Number(id);
+    lesson = await prisma.lesson.findUnique({
+      where: { id: lessonId },
+    });
+  } catch (error) {
+    console.error("Erreur lors de la récupération de la leçon :", error);
+  }
+
+  if (!lesson) {
+    return <h1>Leçon non trouvée</h1>;
+  } else {
+    return (
+      <>
+        <h1>Détails de la leçon : {lesson.title}</h1>
+        <p>{lesson.date.toString()}</p>
+        <p>{lesson.description}</p>
+        <p>{lesson.author}</p>
+      </>
+    );
+  }
 }

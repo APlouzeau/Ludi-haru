@@ -33,7 +33,6 @@ export default function Lessons() {
   useEffect(() => {
     getLessons();
   }, []);
-  console.log(lessons);
 
   return (
     <div>
